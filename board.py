@@ -1,7 +1,6 @@
 import time
 
 class Board:
-
     ROWS = 6
     COLUMNS = 7
     COLORS = {0: '\x1b[100m', 1: '\x1b[42m', 2: '\x1b[45m'}
@@ -65,15 +64,56 @@ class Board:
         return False
 
     def check_winner(self):
+        
         for row in range(Board.ROWS):
             for col in range(Board.COLUMNS-3):
-                window = self.board[row][col: col+4]
+                window = (self.board[row][col],
+                         self.board[row][col+1],
+                         self.board[row][col+2],
+                         self.board[row][col+3])
                 if self.check_window(window):
                     self.window_winner = [
                         (row, col), (row, col+1), (row, col+2), (row, col+3)
                     ]
                     return True
 
+
+        for row in range(Board.ROWS-3):
+            for col in range(Board.COLUMNS):
+                window = (self.board[row][col],
+                         self.board[row+1][col],
+                         self.board[row+2][col],
+                         self.board[row+3][col])
+                if self.check_window(window):
+                    self.window_winner = [
+                        (row, col), (row+1, col), (row+2, col), (row+3, col)
+                    ]
+                    return True
+
+
+        for row in range(Board.ROWS-3):
+            for col in range(Board.COLUMNS-3):
+                window = (self.board[row][col],
+                         self.board[row+1][col+1],
+                         self.board[row+2][col+2],
+                         self.board[row+3][col+3])
+                if self.check_window(window):
+                    self.window_winner = [
+                        (row, col), (row+1, col+1), (row+2, col+2), (row+3, col+3)
+                    ]
+                    return True
+
+        for row in range(Board.ROWS-3):
+            for col in range(3, Board.COLUMNS):
+                window = (self.board[row][col],
+                         self.board[row+1][col-1],
+                         self.board[row+2][col-2],
+                         self.board[row+3][col-3])
+                if self.check_window(window):
+                    self.window_winner = [
+                        (row, col), (row+1, col-1), (row+2, col-2), (row+3, col-3)
+                    ]
+                    return True
 
 
 if __name__ == '__main__':
@@ -92,5 +132,5 @@ if __name__ == '__main__':
     print('\033c')
     print(board, end='')
     print('Fim do jogo!')
-    print(f'\x1b[31mO jogador vencedor foi {board.winner}\x1b[0m')
+    print(f'{Board.COLORS[board.winner]}O jogador vencedor foi {board.winner}\x1b[0m')
     #print(board, end='')
