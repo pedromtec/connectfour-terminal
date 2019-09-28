@@ -3,7 +3,7 @@ import time
 class Board:
     ROWS = 6
     COLUMNS = 7
-    COLORS = {0: '\x1b[100m', 1: '\x1b[42m', 2: '\x1b[45m'}
+    COLORS = {0: '\x1b[100m', 1: '\x1b[47m', 2: '\x1b[44m'}
     def __init__(self, player = 1):
         self.player = player
         self.board = [[0] * Board.COLUMNS for row in range(Board.ROWS)]
@@ -117,12 +117,11 @@ class Board:
 
 
 if __name__ == '__main__':
-    player = int(input('Quem começa? 1 ou 2 ?'))
-    board = Board(player)
+    board = Board()
     while True:
         print('\033c')
         print(board, end='')
-        print(f'{Board.COLORS[board.player][:-1]};30;7;5mJogador {board.player} escolha uma coluna:\x1b[0m')
+        print(f'{Board.COLORS[board.player][:-1]};30;7;5mJogador {board.player}, escolha uma coluna entre 0 e 6:\x1b[0m')
         column = int(input())
         if not board.drop_piece(column):
             print('Jogada Inválida!')
@@ -132,5 +131,5 @@ if __name__ == '__main__':
     print('\033c')
     print(board, end='')
     print('Fim do jogo!')
-    print(f'{Board.COLORS[board.winner]}O jogador vencedor foi {board.winner}\x1b[0m')
+    print(f'{Board.COLORS[board.winner]}{board.winner} venceu!\x1b[0m')
     #print(board, end='')
